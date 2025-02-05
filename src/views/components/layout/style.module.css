@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #2e3b4e;  /* Темный фон, например */
+    color: white;
+}
+
+.container {
+    margin: 0 auto;
+    width: 1400px;
+}
+
+.logo a {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cta_nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav a {
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
