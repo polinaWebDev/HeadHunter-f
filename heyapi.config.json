@@ -1,0 +1,6 @@
+{
+  "openapi": "http://localhost:3002/api-json",
+  "output": "src/api",
+  "client": "axios"
+}
+
