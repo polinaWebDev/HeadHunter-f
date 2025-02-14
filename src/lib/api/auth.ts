@@ -1,5 +1,5 @@
-import {authControllerLogin, authControllerRegister, LoginDto, RegisterDto} from "../../client";
 import {useApiQuery} from "../help/ApiQuery.ts";
+import {authControllerLogin, authControllerRegister, LoginDto, RegisterDto} from "../client";
 
 export const registerApi = async (data: RegisterDto) => {
     return authControllerRegister({body: data})

@@ -1,4 +1,4 @@
-import ReactQueryProvider from "./providers/ReactQueryProvider.tsx";
+import ReactQueryProvider from "../lib/providers/ReactQueryProvider.tsx";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 

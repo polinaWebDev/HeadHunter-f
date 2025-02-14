@@ -1,4 +1,4 @@
-import {CreateClientConfig} from "./client/client.gen";
+import {CreateClientConfig} from "@hey-api/client-axios";
 
 
 export const createClientConfig: CreateClientConfig = (config) => ({
