@@ -8,8 +8,8 @@ export class QueryWrapper<Return, Args> {
     staleTime = 5*60*1000;
     retry = 0;
     gcTime = 5*60*1000;
-    refetchOnWindowFocus: false;
-    refetchOnMount: false;
+    refetchOnWindowFocus?: false;
+    refetchOnMount?: false;
 
 
 
@@ -20,10 +20,10 @@ export class QueryWrapper<Return, Args> {
         reqFn: (x: Args) => Promise<Return>;
         keyGen?: (key: string, x:Args) => string[];
         staleTime?: number;
-        gcTime: number;
+        gcTime?: number;
         retry?: number;
-        refetchOnWindowFocus: false;
-        refetchOnMount: false;
+        refetchOnWindowFocus?: false;
+        refetchOnMount?: false;
     }) {
         this.key = data.key;
         this.reqFn = data.reqFn;
@@ -31,8 +31,8 @@ export class QueryWrapper<Return, Args> {
         this.gcTime = data.gcTime || this.gcTime;
         this.staleTime = data.staleTime || this.staleTime;
         this.retry = data.retry || this.retry;
-        this.refetchOnWindowFocus = data.refetchOnWindowFocus;
-        this.refetchOnMount = data.refetchOnMount
+        this.refetchOnWindowFocus = data.refetchOnWindowFocus || this.refetchOnWindowFocus;
+        this.refetchOnMount = data.refetchOnMount || this.refetchOnMount
     }
 
     
@@ -40,6 +40,7 @@ export class QueryWrapper<Return, Args> {
         return useQuery({
             queryKey: this.keyGen(this.key, x),
             queryFn: () => this.reqFn(x),
+            staleTime: this.staleTime,
             retry: this.retry,
             gcTime: this.gcTime,
             refetchOnWindowFocus: this.refetchOnWindowFocus,
