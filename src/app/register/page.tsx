@@ -47,8 +47,7 @@ export default function RegisterForm() {
             //     Cookies.set("accessToken", response.token, { expires: 1 }); // 1 день
             // }
 
-            // Перенаправление на главную страницу
-            setAuthToken(true);
+            // setAuthToken(true);
             router.push("/profile");
         } catch (error) {
             console.error("Ошибка регистрации:", error);
@@ -74,7 +73,6 @@ export default function RegisterForm() {
                 </button>
             </form>
 
-            {/* ✅ Показываем данные зарегистрированного пользователя */}
             {authUser && (
                 <div className="mt-4 p-4 border rounded-lg bg-gray-100">
                     <h2 className="text-lg font-bold">Вы зарегистрированы!</h2>

@@ -12,8 +12,6 @@ export const registerApi = async (formData: FormData) => {
     });
 
 
-    console.log(response.data + "as RegisterDto");
-
     if (!response.data) {
         throw new Error("Некорректный ответ от сервера");
     }

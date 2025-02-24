@@ -9,35 +9,26 @@ import {useEffect} from "react";
 export default function HomePage() {
     const router = useRouter();
     const { data: user, isLoading, error, refetch } = useGetProfile.useQuery({
-        // Если запрос завершился с ошибкой 401, то мы пытаемся обновить токены
-        onError: async (error: AxiosError) => {
-            if (error.response?.status === 401) {
-                // Запуск мутации обновления токенов
-                useRefreshToken.useMutation();
-                await refetch()
-            }
-        },
-    }, {
-
+        // onError: async (error: AxiosError) => {
+        //     if (error.response?.status === 401) {
+        //         // Запуск мутации обновления токенов
+        //         useRefreshToken.useMutation();
+        //         await refetch()
+        //     }
+        // },
     });
-    const { data: token, mutate: refreshTokens, isPending: refreshing} = useRefreshToken.useMutation();
 
-    if (error && (error as AxiosError).response?.status === 401) {
-        refreshTokens(token);
-    }
+
 
     useEffect(() => {
         console.log("Home component rendered");
     }, []);
 
 
-    // Если идет загрузка данных профиля
-    if (isLoading || refreshing) return <p>Loading...</p>;
+    if (isLoading ) return <p>Loading...</p>;
 
-    // Если произошла ошибка
     if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
-    // Если профиля нет
     if (!user) return <p>Profile not found</p>;
 
     const goToProfile = () => {

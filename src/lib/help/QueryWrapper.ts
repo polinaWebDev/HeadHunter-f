@@ -1,5 +1,5 @@
 import {queryClient} from "./queryClient";
-import {UndefinedInitialDataOptions, useQuery} from "@tanstack/react-query";
+import { useQuery, UseQueryOptions} from "@tanstack/react-query";
 
 
 export class QueryWrapper<Return, Args> {
@@ -10,6 +10,7 @@ export class QueryWrapper<Return, Args> {
     gcTime = 5*60*1000;
     refetchOnWindowFocus?: false;
     refetchOnMount?: false;
+    options?: UseQueryOptions<Return, Error, Return, unknown[]>;
 
 
 
@@ -24,6 +25,7 @@ export class QueryWrapper<Return, Args> {
         retry?: number;
         refetchOnWindowFocus?: false;
         refetchOnMount?: false;
+        options?: UseQueryOptions<Return, Error, Return, unknown[]>;
     }) {
         this.key = data.key;
         this.reqFn = data.reqFn;
@@ -33,10 +35,11 @@ export class QueryWrapper<Return, Args> {
         this.retry = data.retry || this.retry;
         this.refetchOnWindowFocus = data.refetchOnWindowFocus || this.refetchOnWindowFocus;
         this.refetchOnMount = data.refetchOnMount || this.refetchOnMount
+        this.options = data.options || this.options;
     }
 
     
-    useQuery = (x:Args, options?: Partial<UndefinedInitialDataOptions<Return, Error, Return, unknown[]>>) => {
+    useQuery = (x:Args) => {
         return useQuery({
             queryKey: this.keyGen(this.key, x),
             queryFn: () => this.reqFn(x),
@@ -45,7 +48,7 @@ export class QueryWrapper<Return, Args> {
             gcTime: this.gcTime,
             refetchOnWindowFocus: this.refetchOnWindowFocus,
             refetchOnMount: this.refetchOnMount,
-            ...options,
+            ...this.options
         })
     }
 
