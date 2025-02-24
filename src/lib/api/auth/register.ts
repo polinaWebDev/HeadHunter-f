@@ -1,4 +1,4 @@
-import {authControllerLogin, authControllerRegister, LoginDto, RegisterDto, RegisterResponse} from "../client";
+import {authControllerRegister, RegisterDto, RegisterResponse} from "../../client";
 
 export const registerApi = async (formData: FormData) => {
     const body = Object.fromEntries(formData.entries());
@@ -21,8 +21,3 @@ export const registerApi = async (formData: FormData) => {
     console.log("Response:", response.data as RegisterResponse);
     return response.data as RegisterResponse;
 }
-
-export const loginApi = async (data: LoginDto) => {
-    return authControllerLogin({ body: data });
-};
-

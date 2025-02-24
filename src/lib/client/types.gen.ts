@@ -27,6 +27,17 @@ export type UserDto = {
     avatar_url?: string;
 };
 
+export type UserResponseDto = {
+    /**
+     * Токен доступа
+     */
+    token: string;
+    /**
+     * ID пользователя из рефреш-токена
+     */
+    userId: number;
+};
+
 export type RegisterDto = {
     /**
      * Email пользователя
@@ -51,7 +62,38 @@ export type RegisterDto = {
     /**
      * Аватарка пользователя (файл)
      */
-    avatar_url?: File;
+    avatar_url?: string;
+};
+
+export type User = {
+    /**
+     * user`s ID
+     */
+    id: number;
+    /**
+     * user`s email
+     */
+    email: string;
+    /**
+     * user`s password
+     */
+    password: string;
+    /**
+     * user`s firstname
+     */
+    firstName: string;
+    /**
+     * user`s lastname
+     */
+    lastName: string;
+    /**
+     * user`s profile type
+     */
+    profile_type: string;
+    /**
+     * user`s avatar
+     */
+    avatar_url: string;
 };
 
 export type RegisterResponse = {
@@ -62,7 +104,7 @@ export type RegisterResponse = {
     /**
      * User returned after successful registration
      */
-    user: UserDto;
+    user: User;
 };
 
 export type LoginDto = {
@@ -110,6 +152,22 @@ export type UserControllerGetProfileResponses = {
 
 export type UserControllerGetProfileResponse = UserControllerGetProfileResponses[keyof UserControllerGetProfileResponses];
 
+export type AuthControllerGetMeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/me';
+};
+
+export type AuthControllerGetMeResponses = {
+    /**
+     * Получение пользователя
+     */
+    200: UserResponseDto;
+};
+
+export type AuthControllerGetMeResponse = AuthControllerGetMeResponses[keyof AuthControllerGetMeResponses];
+
 export type AuthControllerRegisterData = {
     body: RegisterDto;
     path?: never;
@@ -151,10 +209,26 @@ export type AuthControllerLogoutData = {
 
 export type AuthControllerLogoutResponses = {
     /**
-     * Successful login
+     * Successful logout
      */
     201: unknown;
 };
+
+export type AuthControllerRefreshData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/refresh';
+};
+
+export type AuthControllerRefreshResponses = {
+    /**
+     * Successful token refresh
+     */
+    201: LoginResponse;
+};
+
+export type AuthControllerRefreshResponse = AuthControllerRefreshResponses[keyof AuthControllerRefreshResponses];
 
 export type ClientOptions = {
     baseURL: 'http://localhost:3002' | (string & {});

@@ -1,8 +1,8 @@
-import { registerApi} from "../api/auth";
 import {MutationWrapper} from "../help/MutationWrapper";
 import {client} from "../client/client.gen";
+import {registerApi} from "../api/auth/register";
 
-export const registerMutation = new MutationWrapper({
+export const useRegisterMutation = new MutationWrapper({
     mutationFn: registerApi,
     client: client
 })

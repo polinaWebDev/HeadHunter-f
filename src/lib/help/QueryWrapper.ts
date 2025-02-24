@@ -5,8 +5,12 @@ import {UndefinedInitialDataOptions, useQuery} from "@tanstack/react-query";
 export class QueryWrapper<Return, Args> {
     key: string;
     reqFn: (x: Args) => Promise<Return>;
-    staleTime = 60*1000;
-    retry = 1
+    staleTime = 5*60*1000;
+    retry = 0;
+    gcTime = 5*60*1000;
+    refetchOnWindowFocus: false;
+    refetchOnMount: false;
+
 
 
     keyGen: (key: string, x: Args) => string[] = (key) => [key]
@@ -16,21 +20,30 @@ export class QueryWrapper<Return, Args> {
         reqFn: (x: Args) => Promise<Return>;
         keyGen?: (key: string, x:Args) => string[];
         staleTime?: number;
+        gcTime: number;
         retry?: number;
+        refetchOnWindowFocus: false;
+        refetchOnMount: false;
     }) {
         this.key = data.key;
         this.reqFn = data.reqFn;
         this.keyGen = data.keyGen || this.keyGen;
+        this.gcTime = data.gcTime || this.gcTime;
         this.staleTime = data.staleTime || this.staleTime;
-        this.retry = data.retry || this.retry
+        this.retry = data.retry || this.retry;
+        this.refetchOnWindowFocus = data.refetchOnWindowFocus;
+        this.refetchOnMount = data.refetchOnMount
     }
 
     
     useQuery = (x:Args, options?: Partial<UndefinedInitialDataOptions<Return, Error, Return, unknown[]>>) => {
-        useQuery({
+        return useQuery({
             queryKey: this.keyGen(this.key, x),
             queryFn: () => this.reqFn(x),
             retry: this.retry,
+            gcTime: this.gcTime,
+            refetchOnWindowFocus: this.refetchOnWindowFocus,
+            refetchOnMount: this.refetchOnMount,
             ...options,
         })
     }
