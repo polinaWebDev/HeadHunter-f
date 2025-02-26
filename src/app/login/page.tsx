@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import {useLoginMutation} from "../../lib/hooks/useLogin";
 import {useAuth} from "../../lib/state/authAtom";
 import {useRouter} from "next/navigation";
+import {queryClient} from "../../lib/help/queryClient";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -18,7 +19,8 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            const {data}  = await mutation.mutateAsync({email, password});
+            const data  = await mutation.mutateAsync({email, password});
+            queryClient.setQueryData(['me'], data.user);
 
 
             if (!data) {
@@ -26,7 +28,7 @@ export default function Login() {
                 return;
             }
 
-            setAuth(data.user.email)
+            setAuth(data.token)
             router.push("/profile");
 
         } catch (error) {

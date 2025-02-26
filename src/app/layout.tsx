@@ -4,6 +4,8 @@ import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {queryClient} from "../lib/help/queryClient";
 import ClientProvider from "../lib/providers/ClientProvider";
+import '../styles/reset.css'
+import '../styles/global.css'
 
 
 

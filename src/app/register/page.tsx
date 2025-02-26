@@ -6,15 +6,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {useRegisterMutation} from "../../lib/hooks/useRegister";
 import {RegisterDto} from "../../lib/client";
-import {useAtom} from "jotai";
 import {useRouter} from "next/navigation";
-import {authAtom} from "../../lib/state/authAtom";
+import {useAuth} from "../../lib/state/authAtom";
 
 export default function RegisterForm() {
     const { register, handleSubmit } = useForm<RegisterDto>();
     const [avatar, setAvatar] = useState<File | null>(null);
     const mutation = useRegisterMutation.useMutation();
-    const [authUser, setAuthToken] = useAtom(authAtom);
+    const [authUser, setAuth] = useAuth()
     const router = useRouter();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,14 +39,8 @@ export default function RegisterForm() {
 
 
         try {
-            await mutation.mutateAsync(formData);
-
-            // Сохранение токена в куки
-            // if (response.token) {
-            //     Cookies.set("accessToken", response.token, { expires: 1 }); // 1 день
-            // }
-
-            // setAuthToken(true);
+            const data = await mutation.mutateAsync(formData);
+            setAuth(data.token);
             router.push("/profile");
         } catch (error) {
             console.error("Ошибка регистрации:", error);

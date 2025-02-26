@@ -3,12 +3,19 @@ import {useSetAtom} from "jotai";
 import {authAtom} from "../state/authAtom";
 import {useRefreshToken} from "../hooks/useRefreshToken";
 import {useEffect} from "react";
-import {AxiosError} from "axios";
+import Header from "../../components/Layout/Header/Header";
+
 
 export default function ClientProvider({ children }: { children: React.ReactNode }) {
     const { data: user, isPending } = useGetUser.useQuery({});
     const setAuthToken = useSetAtom(authAtom);
     const { mutate: refreshTokens, isPending: isRefreshing, error } = useRefreshToken.useMutation();
+
+    useEffect(() => {
+        if (error && error.response?.status === 401) {
+            refreshTokens(user?.token);
+        }
+    }, [error, refreshTokens]);
 
     useEffect(() => {
         if (user?.token) {
@@ -17,21 +24,24 @@ export default function ClientProvider({ children }: { children: React.ReactNode
         }
     }, [user, setAuthToken]);
 
-    // useEffect(() => {
-    //     if (error && (error as AxiosError).response?.status === 401) {
-    //         const oldToken = user?.token;
-    //         if (oldToken) {
-    //             console.log("Refreshing token...");
-    //             refreshTokens(oldToken);
-    //         }
-    //     }
-    // }, [error, refreshTokens, user]);
 
     if (isPending || isRefreshing) {
         return <p>Loading...</p>;
     }
 
+    if (error) {
+        console.error("Ошибка", error);
+    }
+
     console.log("ClientProvider rendered");
 
-    return <>{children}</>;
+    return (
+        <div>
+            <Header/>
+            <div className="container">
+                {children}
+            </div>
+        </div>
+    )
+
 }

@@ -2,5 +2,8 @@ import {userControllerGetProfile} from "../../client";
 
 export const getProfileApi = async () => {
     const response = await userControllerGetProfile();
-    return response?.data ?? null;
+    if (!response?.data) {
+        throw new Error('Ошибка при получении профиля');
+    }
+    return response.data;
 }
