@@ -1,15 +1,16 @@
-import {useAtomValue} from "jotai";
-import {authAtom} from "../../../lib/state/authAtom";
+"use client"
+
 import Link from "next/link";
-import {useGetProfile} from "../../../lib/hooks/useGetProfile";
 import styles from './styles.module.css'
 import {LogoutButton} from "../../UI/LogoutButton";
+import {useUser} from "@/lib/hooks/useUser";
 
 
 const Header: React.FC = () => {
 
-    const { data: user } = useGetProfile.useQuery({});
-    const token = useAtomValue(authAtom);
+    const user = useUser();
+
+
 
 
     return (
@@ -18,14 +19,15 @@ const Header: React.FC = () => {
                 <Link href="/">
                     <img src='/logo.svg' alt=""/>
                 </Link>
-                {token && user ? (
+                {user ? (
                     <nav className={styles.nav}>
                         {user.profile_type === 'employer' ? (
-                            <Link href="/my-companies">Мои компании</Link>
+                            <Link href="/company">Мои компании</Link>
                         ) : (
                             <Link href="/my-resumes">Мои резюме</Link>
                         )}
                         <Link href="/profile">Профиль</Link>
+                        <p>Name: {user.firstName}</p>
                         <LogoutButton/>
                     </nav>
                 ) : (

@@ -1,5 +1,5 @@
 import {queryClient} from "./queryClient";
-import { useQuery, UseQueryOptions} from "@tanstack/react-query";
+import {QueryClient, useQuery, UseQueryOptions} from "@tanstack/react-query";
 
 
 export class QueryWrapper<Return, Args> {
@@ -52,7 +52,7 @@ export class QueryWrapper<Return, Args> {
         })
     }
 
-    async prefetch(x: Args) {
+    async prefetch(queryClient: QueryClient ,x: Args, ) {
         const data = await this.reqFn(x);
         await queryClient.prefetchQuery({
             queryKey: this.keyGen(this.key, x),
@@ -83,5 +83,6 @@ export class QueryWrapper<Return, Args> {
             queryKey: this.keyGen(this.key, x),
         })
     }
+
 }
 

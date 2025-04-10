@@ -1,13 +1,12 @@
-// src/app/register/page.tsx
 "use client";
 
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import {useRegisterMutation} from "../../lib/hooks/useRegister";
-import {RegisterDto} from "../../lib/client";
+import {useRegisterMutation} from "@/lib/hooks/useRegister";
+import {RegisterDto} from "@/lib/client";
 import {useRouter} from "next/navigation";
-import {useAuth} from "../../lib/state/authAtom";
+import {useAuth} from "@/lib/state/authAtom";
 
 export default function RegisterForm() {
     const { register, handleSubmit } = useForm<RegisterDto>();

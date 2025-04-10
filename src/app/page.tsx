@@ -1,6 +1,6 @@
 "use client"
 
-import {useGetProfile} from "../lib/hooks/useGetProfile";
+import {useGetProfile} from "@/lib/hooks/useGetProfile";
 
 export default function HomePage() {
     const { data: user, isLoading, error } = useGetProfile.useQuery({});

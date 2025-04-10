@@ -1,3 +1,4 @@
+'use client'
 import {useRouter} from "next/navigation";
 import {logoutApi} from "../../lib/api/auth/logout";
 import {authAtom} from "../../lib/state/authAtom";

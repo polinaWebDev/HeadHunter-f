@@ -1,11 +1,11 @@
 "use client";
 
 import React, {useState} from "react";
-import {useLoginMutation} from "../../lib/hooks/useLogin";
-import {useAuth} from "../../lib/state/authAtom";
+import {useLoginMutation} from "@/lib/hooks/useLogin";
+import {useAuth} from "@/lib/state/authAtom";
 import {useRouter} from "next/navigation";
-import {useGetUser} from "../../lib/hooks/useGetUser";
-import {useGetProfile} from "../../lib/hooks/useGetProfile";
+import {useGetUser} from "@/lib/hooks/useGetUser";
+import {useGetProfile} from "@/lib/hooks/useGetProfile";
 
 export default function Login() {
     const [email, setEmail] = useState("");

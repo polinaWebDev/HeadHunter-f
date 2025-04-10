@@ -1,21 +1,19 @@
 "use client"
 
-import {useGetProfile} from "../../lib/hooks/useGetProfile";
-import { useAuth} from "../../lib/state/authAtom";
-import {UserProfile} from "../../components/Profile/UserProfile/UserProfile";
+import {useGetProfile} from "@/lib/hooks/useGetProfile";
+import {UserProfile} from "@/components/Profile/UserProfile/UserProfile";
 
 export default function Profile() {
     const { data: user, isLoading, error } = useGetProfile.useQuery({});
-    const [token] = useAuth();
 
     console.log('user', user);
     console.log('isLoading', isLoading);
     console.log('error', error);
 
-    if (isLoading || !token) {
+    if (isLoading ) {
         console.log('111')
         return <p>Loading...</p>
-    };
+    }
 
     if (error) {
         console.error("Ошибка или пустой ответ:", error);

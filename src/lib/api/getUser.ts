@@ -1,13 +1,13 @@
-import {authControllerGetMe} from "../client";
+import {userControllerGetMe} from "@/lib/client";
+
 
 export const getUserApi = async () => {
     try {
-        const { data } = await authControllerGetMe();
+        const { data } = await userControllerGetMe();
         if (!data) {
             throw new Error("Ошибка при получении пользователя");
         }
-        const token = data.token;
-        return { token };
+        return data;
     } catch (error) {
         console.error("Ошибка при получении пользователя:", error);
         return null;

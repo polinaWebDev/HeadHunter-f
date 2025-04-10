@@ -27,17 +27,6 @@ export type UserDto = {
     avatar_url?: string;
 };
 
-export type UserResponseDto = {
-    /**
-     * Токен доступа
-     */
-    token: string;
-    /**
-     * ID пользователя из рефреш-токена
-     */
-    userId: number;
-};
-
 export type RegisterDto = {
     /**
      * Email пользователя
@@ -65,11 +54,36 @@ export type RegisterDto = {
     avatar_url?: string;
 };
 
-export type User = {
+export type RefreshToken = {
     /**
-     * user`s ID
+     * Entity ID
      */
     id: number;
+    /**
+     * Entity creation date
+     */
+    createdAt: string;
+    /**
+     * Entity last update date
+     */
+    updatedAt: string;
+    userId: number;
+    token: string;
+};
+
+export type User = {
+    /**
+     * Entity ID
+     */
+    id: number;
+    /**
+     * Entity creation date
+     */
+    createdAt: string;
+    /**
+     * Entity last update date
+     */
+    updatedAt: string;
     /**
      * user`s email
      */
@@ -94,6 +108,7 @@ export type User = {
      * user`s avatar
      */
     avatar_url: string;
+    refreshToken: RefreshToken;
 };
 
 export type RegisterResponse = {
@@ -129,44 +144,105 @@ export type LoginResponse = {
     user: UserDto;
 };
 
-export type UserControllerGetProfileData = {
+export type CreateCompanyDto = {
+    /**
+     * company name
+     */
+    name: string;
+    /**
+     * company description
+     */
+    description: string;
+    /**
+     * company avatar
+     */
+    logo_url: string | null;
+};
+
+export type Company = {
+    /**
+     * Entity ID
+     */
+    id: number;
+    /**
+     * Entity creation date
+     */
+    createdAt: string;
+    /**
+     * Entity last update date
+     */
+    updatedAt: string;
+    /**
+     * company name
+     */
+    name: string;
+    /**
+     * company description
+     */
+    description: string;
+    /**
+     * company avatar
+     */
+    avatar_url: string | null;
+    /**
+     * 1
+     */
+    ownerId: User;
+    /**
+     * company members
+     */
+    members: Array<CompanyMember>;
+};
+
+export type CompanyMember = {
+    /**
+     * Entity ID
+     */
+    id: number;
+    /**
+     * Entity creation date
+     */
+    createdAt: string;
+    /**
+     * Entity last update date
+     */
+    updatedAt: string;
+    /**
+     * user
+     */
+    user: User;
+    /**
+     * company
+     */
+    company: Company;
+    /**
+     * company role
+     */
+    role: string;
+};
+
+export type UserControllerGetMeData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/user/profile';
+    url: '/user/me';
 };
 
-export type UserControllerGetProfileErrors = {
+export type UserControllerGetMeErrors = {
     /**
      * Пользователь не авторизован
      */
     401: unknown;
 };
 
-export type UserControllerGetProfileResponses = {
+export type UserControllerGetMeResponses = {
     /**
      * Получение профиля пользователя
      */
     200: UserDto;
 };
 
-export type UserControllerGetProfileResponse = UserControllerGetProfileResponses[keyof UserControllerGetProfileResponses];
-
-export type AuthControllerGetMeData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/auth/me';
-};
-
-export type AuthControllerGetMeResponses = {
-    /**
-     * Получение пользователя
-     */
-    200: UserResponseDto;
-};
-
-export type AuthControllerGetMeResponse = AuthControllerGetMeResponses[keyof AuthControllerGetMeResponses];
+export type UserControllerGetMeResponse = UserControllerGetMeResponses[keyof UserControllerGetMeResponses];
 
 export type AuthControllerRegisterData = {
     body: RegisterDto;
@@ -229,6 +305,104 @@ export type AuthControllerRefreshResponses = {
 };
 
 export type AuthControllerRefreshResponse = AuthControllerRefreshResponses[keyof AuthControllerRefreshResponses];
+
+export type CompanyControllerRegisterCompanyData = {
+    body: CreateCompanyDto;
+    path?: never;
+    query?: never;
+    url: '/company/create';
+};
+
+export type CompanyControllerRegisterCompanyResponses = {
+    /**
+     * Создание компании
+     */
+    200: Company;
+};
+
+export type CompanyControllerRegisterCompanyResponse = CompanyControllerRegisterCompanyResponses[keyof CompanyControllerRegisterCompanyResponses];
+
+export type CompanyControllerUpdateCompanyData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/company/update';
+};
+
+export type CompanyControllerUpdateCompanyResponses = {
+    /**
+     * Обновление компании
+     */
+    200: Company;
+};
+
+export type CompanyControllerUpdateCompanyResponse = CompanyControllerUpdateCompanyResponses[keyof CompanyControllerUpdateCompanyResponses];
+
+export type CompanyControllerGetCompanyData = {
+    body?: never;
+    path: {
+        companyId: number;
+    };
+    query?: never;
+    url: '/company/details/{companyId}';
+};
+
+export type CompanyControllerGetCompanyResponses = {
+    /**
+     * Получение компании по ид
+     */
+    200: Company;
+};
+
+export type CompanyControllerGetCompanyResponse = CompanyControllerGetCompanyResponses[keyof CompanyControllerGetCompanyResponses];
+
+export type CompanyControllerInviteData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/company/invite';
+};
+
+export type CompanyControllerInviteResponses = {
+    /**
+     * Получение компаний пользователя
+     */
+    200: CompanyMember;
+};
+
+export type CompanyControllerInviteResponse = CompanyControllerInviteResponses[keyof CompanyControllerInviteResponses];
+
+export type CompanyControllerChangeRoleData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/company/change-role';
+};
+
+export type CompanyControllerChangeRoleResponses = {
+    /**
+     * Изменение роли пользователя
+     */
+    200: CompanyMember;
+};
+
+export type CompanyControllerChangeRoleResponse = CompanyControllerChangeRoleResponses[keyof CompanyControllerChangeRoleResponses];
+
+export type CompanyControllerGetMyCompanyData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/company/my';
+};
+
+export type CompanyControllerGetMyCompanyResponses = {
+    /**
+     * Получение всех компаний пользователя
+     */
+    200: Array<Company>;
+};
+
+export type CompanyControllerGetMyCompanyResponse = CompanyControllerGetMyCompanyResponses[keyof CompanyControllerGetMyCompanyResponses];
 
 export type ClientOptions = {
     baseURL: 'http://localhost:3002' | (string & {});

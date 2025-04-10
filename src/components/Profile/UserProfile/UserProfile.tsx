@@ -1,4 +1,4 @@
-import {UserDto} from "../../../lib/client";
+import {UserDto} from "@/lib/client";
 import React from "react";
 import styles from './styles.module.css';
 
